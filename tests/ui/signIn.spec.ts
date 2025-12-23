@@ -76,7 +76,7 @@ test('Click forgot password', async ({ page }) => {
     await expect(page.locator('span', { hasText: 'Forgot' })).toBeVisible();
 });
 
-test.skip('Input registered email for reset link', async ({ page }) => {
+test('Input registered email for reset link', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const forgotPasswordPage = new ForgotPasswordPage(page);
 
@@ -91,7 +91,7 @@ test.skip('Input registered email for reset link', async ({ page }) => {
     await expect(forgotPasswordPage.assertOTPPage).toBeVisible();
 });
 
-test.skip('Input unregistered email for reset link', async ({ page }) => {
+test('Input unregistered email for reset link', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const forgotPasswordPage = new ForgotPasswordPage(page);
 
@@ -121,7 +121,7 @@ test.skip('Input valid OTP', async ({ page }) => {
     await expect(loginPage.ForYouButton).toBeVisible();
 })
 
-test.skip('Input invalid OTP', async ({ page }) => {
+test('Input invalid OTP', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const forgotPasswordPage = new ForgotPasswordPage(page);
 
@@ -137,7 +137,7 @@ test.skip('Input invalid OTP', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'OTP Verification Failed' })).toBeVisible();
 })
 
-test.skip('Resend OTP', async ({ page }) => {
+test('Resend OTP', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const forgotPasswordPage = new ForgotPasswordPage(page);
 
