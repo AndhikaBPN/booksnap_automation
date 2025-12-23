@@ -1,0 +1,39 @@
+import { Page, Locator, expect, defineConfig } from '@playwright/test';
+
+export class ForgotPasswordPage {
+    readonly page: Page;
+    readonly emailInput: Locator;
+    readonly submitButton: Locator;
+    readonly resendButton: Locator;
+    readonly otpInput: Locator;
+
+    constructor(page: Page) {
+        this.page = page;
+        this.emailInput = page.getByLabel('Email').locator('..').locator('input');
+        this.submitButton = page.getByRole('button', { name: 'Send Reset Link' });
+        this.resendButton = page.getByRole('button', { name: 'Resend Email' });
+        this.otpInput = page.locator('input[inputmode="numeric"][maxlength="1"]');
+    }
+
+    async inputEmail(email: string): Promise<void> {
+        await this.emailInput.fill(email);
+    }
+
+    async clickSendButton(): Promise<void> {
+        await this.submitButton.click();
+    }
+
+    get assertOTPPage(): Locator {
+        return this.page.locator('span', { hasText: 'Account' });
+    }
+
+    async inputOTP(otp: string): Promise<void> {
+        for(let i = 0; i < otp.length; i++) {
+            await this.otpInput.nth(i).fill(otp[i]);
+        }
+    }
+
+    async clickContinueButton(): Promise<void> {
+        await this.page.getByRole('button', { name: 'Continue' }).click();
+    }
+}
