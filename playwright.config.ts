@@ -1,21 +1,23 @@
 import dotenv from 'dotenv';
-import { defineConfig } from '@playwright/test';
+import {defineConfig} from '@playwright/test';
+import fs from 'fs';
 
 dotenv.config();
 
 // default reporter
-const reporters: any[] = [
-    ['html', { open: 'never' }]
-];
+const useAllure = process.env.USE_ALLURE === 'true';
 
-// allure-report
-if(process.env.USE_ALLURE === 'true') {
-    reporters.push(['allure-playwright']);
+// clean allure-results
+const allureResultsDir = './allure-results';
+if (process.env.useAllure === 'true') {
+    if (fs.existsSync(allureResultsDir)) {
+        fs.rmSync(allureResultsDir, {recursive: true, force: true});
+    }
 }
 
 export default defineConfig({
     retries: process.env.CI ? 2 : 0,
-    reporter: reporters,
+    reporter: useAllure ? [['allure-playwright']] : [['html', {open: 'never'}]],
     use: {
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',

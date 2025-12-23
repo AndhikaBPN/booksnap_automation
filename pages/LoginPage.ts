@@ -23,10 +23,12 @@ export class LoginPage {
 
     async goto(): Promise<void> {
         await this.page.goto('/');
+        console.log('Navigated to login page');
     }
 
     async skipIntro(): Promise<void> {
         await this.skipButton.click();
+        console.log('Skip button clicked');
     }
 
     async login(email?: string, password?: string): Promise<void> {
@@ -37,16 +39,20 @@ export class LoginPage {
         }
 
         await this.emailInput.fill(finalEmail);
+        console.log('Email input filled with: ' + finalEmail);
         await this.passwordInput.fill(finalPassword);
+        console.log('Password input filled with: ' + finalPassword);
     }
 
     async clickLogin(): Promise<void> {
         await this.loginButton.click();
+        console.log('Login button clicked');
     }
 
     async navigateToSignUpPage(): Promise<void> {
         const signUpLink = this.page.getByRole('button', { name: 'Sign up' });
         await signUpLink.click();
+        console.log('Navigated to sign up page');
     }
 
     async assertLoginSuccess(): Promise<void> {
@@ -55,6 +61,7 @@ export class LoginPage {
 
     async togglePasswordVisibility(): Promise<void> {
         await this.togglePasswordButton.click();
+        console.log('Password visibility toggled');
     }
 
     async getPasswordType(): Promise<void> {
@@ -74,6 +81,7 @@ export class LoginPage {
 
     async clickForgotPassword(): Promise<void> {
         await this.forgotPasswordButton.click()
+        console.log('Forgot password button clicked')
     }
 
     get ForYouButton(): Locator {
