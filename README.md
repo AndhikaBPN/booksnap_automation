@@ -112,7 +112,7 @@ npx playwright show-report
 Allure (optional):
 
 ```bash
-REPORTER=allure 
+USE_ALLURE=true 
 npx playwright test
 npx allure generate ./allure-results --clean
 npx allure open
