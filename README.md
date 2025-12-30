@@ -45,7 +45,7 @@ USER_EMAIL=test@example.com
 USER_PASSWORD=Password123
 USE_ALLURE=false
 CI=false
-RUN_TEST=example.spec.ts
+RUN_TEST=file_name
 ```
 
 ---
