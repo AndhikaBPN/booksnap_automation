@@ -9,16 +9,18 @@ export class SignUpPage {
     readonly confirmPasswordInput: Locator;
     readonly signUpButton: Locator;
     readonly continueWithGoogleButton: Locator;
+    readonly continueButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.nameInput = page.getByLabel('Name');
         this.emailInput = page.getByLabel('Email');
         this.phoneNumberInput = page.getByLabel('Phone Number');
-        this.passwordInput = page.getByLabel("Password");
+        this.passwordInput = page.getByLabel('Password', { exact: true });
         this.confirmPasswordInput = page.getByLabel('Confirm Password');
         this.signUpButton = page.getByRole('button', {name: 'Sign Up'});
         this.continueWithGoogleButton = page.locator('span', {hasText: 'Continue with Google'});
+        this.continueButton = page.getByRole('button', {name: 'Continue'});
     }
 
     async inputName(name: string): Promise<void> {
@@ -59,5 +61,32 @@ export class SignUpPage {
     async clickContinueWithGoogleButton(): Promise<void> {
         await this.continueWithGoogleButton.click();
         console.log('Continue with Google button clicked');
+    }
+
+    async getClassValue(locator: string): Promise<string | null> {
+        switch (locator) {
+            case 'name':
+                console.log(await this.nameInput.locator('..').getAttribute('class'));
+                return await this.nameInput.locator('..').getAttribute('class');
+            case 'email':
+                console.log(await this.emailInput.locator('..').getAttribute('class'));
+                return await this.emailInput.locator('..').getAttribute('class');
+            case 'phoneNumber':
+                console.log(await this.phoneNumberInput.locator('..').getAttribute('class'));
+                return await this.phoneNumberInput.locator('..').getAttribute('class');
+            case 'password':
+                console.log(await this.passwordInput.locator('..').getAttribute('class'));
+                return await this.passwordInput.locator('..').getAttribute('class');
+            case 'confirmPassword':
+                console.log(await this.confirmPasswordInput.locator('..').getAttribute('class'));
+                return await this.confirmPasswordInput.locator('..').getAttribute('class');
+            default:
+                throw new Error('Invalid locator');
+        }
+    }
+
+    async hasErrorBorder(locator: string): Promise<boolean> {
+        const classValue = await this.getClassValue(locator);
+        return classValue?.includes('border-red-500') ?? false;
     }
 }
