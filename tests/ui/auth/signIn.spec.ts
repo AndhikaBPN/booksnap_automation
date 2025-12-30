@@ -1,5 +1,6 @@
 import {test, expect} from '@playwright/test';
 import {LoginPage, ForgotPasswordPage} from '../../../pages';
+import {LoginFlow} from '../../flows/auth/LoginFlow';
 
 test.describe('Sign In', () => {
     test('Navigate to sign up page', async ({page}) => {
@@ -14,10 +15,11 @@ test.describe('Sign In', () => {
 
     test('Login with input correct email', async ({page}) => {
         const loginPage = new LoginPage(page);
+        const loginFlow = new LoginFlow(page);
 
         await loginPage.goto();
         await loginPage.skipIntro();
-        await loginPage.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
+        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
         await loginPage.clickLogin();
 
         await expect(loginPage.ForYouButton).toBeVisible();
@@ -25,10 +27,11 @@ test.describe('Sign In', () => {
 
     test('Login with input incorrect email', async ({page}) => {
         const loginPage = new LoginPage(page);
+        const loginFlow = new LoginFlow(page);
 
         await loginPage.goto();
         await loginPage.skipIntro();
-        await loginPage.login('fildzaharistaa2902@gmail.com', 'fildzah@com');
+        await loginFlow.login('fildzaharistaa2902@gmail.com', 'fildzah@com');
         await loginPage.clickLogin();
 
         await expect(page.getByRole('heading', {name: 'Login Failed'})).toBeVisible();
@@ -36,10 +39,11 @@ test.describe('Sign In', () => {
 
     test('Login with input correct password', async ({page}) => {
         const loginPage = new LoginPage(page);
+        const loginFlow = new LoginFlow(page);
 
         await loginPage.goto();
         await loginPage.skipIntro();
-        await loginPage.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
+        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
         await loginPage.clickLogin();
 
         await expect(loginPage.ForYouButton).toBeVisible();
@@ -47,10 +51,11 @@ test.describe('Sign In', () => {
 
     test('Login with input incorrect password', async ({page}) => {
         const loginPage = new LoginPage(page);
+        const loginFlow = new LoginFlow(page);
 
         await loginPage.goto();
         await loginPage.skipIntro();
-        await loginPage.login('fildzaharistaaa@gmail.com', 'Yoshi2902?');
+        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshi2902?');
         await loginPage.clickLogin();
 
         await expect(page.getByRole('heading', {name: 'Login Failed'})).toBeVisible();
@@ -58,10 +63,11 @@ test.describe('Sign In', () => {
 
     test('Show or hide password', async ({page}) => {
         const loginPage = new LoginPage(page);
+        const loginFlow = new LoginFlow(page);
 
         await loginPage.goto();
         await loginPage.skipIntro();
-        await loginPage.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
+        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
         await loginPage.assertPasswordHidden()
         await loginPage.togglePasswordVisibility();
         await loginPage.assertPasswordVisible()
