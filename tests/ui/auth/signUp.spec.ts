@@ -49,12 +49,13 @@ test.describe('Sign up page', () => {
 
     test('Input valid email with all fields filled with valid data', async ({page}) => {
         const name = Generator.randomNameGenerator();
+        const email = Generator.randomEmailGenerator();
         const phoneNumber = Generator.randomPhoneNumberGenerator();
         const password = Generator.randomPasswordGenerator();
 
         await signUpPage.inputName(name);
-        await signUpPage.inputEmail('andhika.bagaskara2@gmail.com');
-        await expect(signUpPage.emailInput).toHaveValue('andhika.bagaskara2@gmail.com');
+        await signUpPage.inputEmail(email);
+        await expect(signUpPage.emailInput).toHaveValue(email);
         await signUpPage.inputPhoneNumber(phoneNumber);
         await signUpPage.inputPassword(password);
         await signUpPage.inputConfirmPassword(password);
