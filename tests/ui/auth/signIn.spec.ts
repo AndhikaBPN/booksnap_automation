@@ -4,73 +4,40 @@ import {LoginFlow} from '../../flows/auth/LoginFlow';
 
 test.describe('Sign In', () => {
     test('Navigate to sign up page', async ({page}) => {
-        const loginPage = new LoginPage(page);
+        const loginFlow = new LoginFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginPage.navigateToSignUpPage();
-
-        await expect(page.locator('span', {hasText: 'Sign Up Now'})).toBeVisible();
+        await loginFlow.NavigateToSignUpPageFlow();
     });
 
     test('Login with input correct email', async ({page}) => {
-        const loginPage = new LoginPage(page);
         const loginFlow = new LoginFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
-        await loginPage.clickLogin();
-
-        await expect(loginPage.ForYouButton).toBeVisible();
+        await loginFlow.LoginWithInputCorrectEmail('fildzaharistaaa@gmail.com', 'Yoshiki29!');
     });
 
     test('Login with input incorrect email', async ({page}) => {
-        const loginPage = new LoginPage(page);
         const loginFlow = new LoginFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginFlow.login('fildzaharistaa2902@gmail.com', 'fildzah@com');
-        await loginPage.clickLogin();
-
-        await expect(page.getByRole('heading', {name: 'Login Failed'})).toBeVisible();
+        await loginFlow.LoginWithInputIncorrectEmail('fildzaharistaa2902@gmail.com', 'fildzah@com');
     });
 
     test('Login with input correct password', async ({page}) => {
-        const loginPage = new LoginPage(page);
         const loginFlow = new LoginFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
-        await loginPage.clickLogin();
-
-        await expect(loginPage.ForYouButton).toBeVisible();
+        await loginFlow.LoginWithInputCorrectPassword('fildzaharistaaa@gmail.com', 'Yoshiki29!');
     });
 
     test('Login with input incorrect password', async ({page}) => {
-        const loginPage = new LoginPage(page);
         const loginFlow = new LoginFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshi2902?');
-        await loginPage.clickLogin();
-
-        await expect(page.getByRole('heading', {name: 'Login Failed'})).toBeVisible();
+        await loginFlow.LoginWithInputIncorrectPassword('fildzaharistaaa@gmail.com', 'Yoshi2902?');
     });
 
     test('Show or hide password', async ({page}) => {
         const loginPage = new LoginPage(page);
         const loginFlow = new LoginFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginFlow.login('fildzaharistaaa@gmail.com', 'Yoshiki29!');
-        await loginPage.assertPasswordHidden()
-        await loginPage.togglePasswordVisibility();
-        await loginPage.assertPasswordVisible()
+        await loginFlow.ShowOrHidePassword('fildzaharistaaa@gmail.com', 'Yoshiki29!');
     });
 });
 
