@@ -43,7 +43,9 @@ Create `.env` from `.env.example`:
 BASE_URL=https://stg.example.com
 USER_EMAIL=test@example.com
 USER_PASSWORD=Password123
-REPORTER=html
+USE_ALLURE=false
+CI=false
+RUN_TEST=example.spec.ts
 ```
 
 ---
