@@ -81,7 +81,7 @@ test.describe.skip('Forgot Password', () => {
         await expect(page.getByRole('heading', {name: 'Error!'})).toBeVisible();
     })
 
-    test.skip('Input valid OTP', async ({page}) => {
+    test('Input valid OTP', async ({page}) => {
         const loginPage = new LoginPage(page);
         const forgotPasswordPage = new ForgotPasswordPage(page);
 
