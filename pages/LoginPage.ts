@@ -44,6 +44,16 @@ export class LoginPage {
         console.log('Password input filled with: ' + finalPassword);
     }
 
+    async inputEmail(email: string): Promise<void> {
+        await this.emailInput.fill(email);
+        console.log('Email input filled with: ' + email);
+    }
+
+    async inputPassword(password: string): Promise<void> {
+        await this.passwordInput.fill(password);
+        console.log('Password input filled with: ' + password);
+    }
+
     async clickLogin(): Promise<void> {
         await this.loginButton.click();
         console.log('Login button clicked');
@@ -53,6 +63,12 @@ export class LoginPage {
         const signUpLink = this.page.getByRole('button', { name: 'Sign up' });
         await signUpLink.click();
         console.log('Navigated to sign up page');
+    }
+
+    async navigateToLoginPage(): Promise<void> {
+        const loginLink = this.page.getByRole('button', { name: 'Log In' });
+        await loginLink.click();
+        console.log('Navigated to login page');
     }
 
     async assertLoginSuccess(): Promise<void> {
