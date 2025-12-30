@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import {defineConfig} from '@playwright/test';
 import fs from 'fs';
 
+// load env file from .env file
 dotenv.config();
 
 // default reporter
