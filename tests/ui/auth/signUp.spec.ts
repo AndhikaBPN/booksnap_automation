@@ -11,6 +11,9 @@ test.describe('Sign up page', () => {
 
     test.beforeEach('Navigate to sign up page', async ({page}) => {
         signUpFlow = new SignUpFlow(page);
+        signUpPage = new SignUpPage(page);
+        loginPage = new LoginPage(page);
+        forgotPasswordPage = new ForgotPasswordPage(page);
 
         await signUpFlow.NavigateToSignUpPageFlow();
     });
