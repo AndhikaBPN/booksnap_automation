@@ -1,164 +1,62 @@
 import {test, expect} from '@playwright/test';
 import {LoginPage, SignUpPage, ForgotPasswordPage} from '../../../pages';
+import {SignUpFlow} from '../../flows/auth/SignUpFlow';
 import {Generator} from '../../helper/Generator';
-import {sign} from "node:crypto";
 
 test.describe('Sign up page', () => {
     let loginPage: LoginPage;
     let signUpPage: SignUpPage;
     let forgotPasswordPage: ForgotPasswordPage;
+    let signUpFlow: SignUpFlow;
 
     test.beforeEach('Navigate to sign up page', async ({page}) => {
-        loginPage = new LoginPage(page);
-        signUpPage = new SignUpPage(page);
-        forgotPasswordPage = new ForgotPasswordPage(page);
+        signUpFlow = new SignUpFlow(page);
 
-        await loginPage.goto();
-        await loginPage.skipIntro();
-        await loginPage.navigateToSignUpPage();
-        await expect(page.locator('span', {hasText: 'Sign Up Now'})).toBeVisible();
+        await signUpFlow.NavigateToSignUpPageFlow();
     });
 
     test('Navigate to login page', async ({page}) => {
-        await loginPage.navigateToLoginPage();
-        await expect(page).toHaveTitle('Sign In - BookSnap');
+        await signUpFlow.NavigateToLoginPageFlow();
     })
 
     test('Input name with all fields filled with valid data', async ({page}) => {
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-        const password = Generator.randomPasswordGenerator();
-
-        await signUpPage.inputName('Cikiii');
-        await expect(signUpPage.nameInput).toHaveValue('Cikiii');
-        await signUpPage.inputEmail(email)
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword(password);
-        await signUpPage.inputConfirmPassword(password);
-        await signUpPage.clickSignUpButton();
-
-        await expect(page.getByRole('heading', { name: 'Registration Successful!' })).toBeVisible();
+        await signUpFlow.InputNameFlow('Cikiii');
     });
 
     test('Input name only', async ({page}) => {
-        await signUpPage.inputName('Cikiii');
-
-        await expect(signUpPage.nameInput).toHaveValue('Cikiii');
-        await expect(signUpPage.signUpButton).toBeDisabled();
+        await signUpFlow.InputNameOnlyFlow('Cikiii');
     });
 
     test('Input valid email with all fields filled with valid data', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-        const password = Generator.randomPasswordGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await expect(signUpPage.emailInput).toHaveValue(email);
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword(password);
-        await signUpPage.inputConfirmPassword(password);
-        await signUpPage.clickSignUpButton();
-
-        await expect(page.getByRole('heading', { name: 'Registration Successful!' })).toBeVisible();
+        await signUpFlow.InputEmailFlow();
     });
 
     test('Input invalid email', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-        const password = Generator.randomPasswordGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail('fildzah@com');
-        await expect(signUpPage.emailInput).toHaveValue('fildzah@com');
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword(password);
-        await signUpPage.inputConfirmPassword(password);
-
-        await expect(signUpPage.signUpButton).toBeDisabled();
-        expect(await signUpPage.hasErrorBorder('email')).toBe(true);
+        await signUpFlow.InputInvalidEmailFlow('fildzah@com');
     });
 
-    test('input valid email only', async ({page}) => {
-        await signUpPage.inputEmail('andhika.bagaskara3@gmail.com');
-
-        await expect(signUpPage.emailInput).toHaveValue('andhika.bagaskara3@gmail.com');
-        await expect(signUpPage.signUpButton).toBeDisabled();
+    test('Input valid email only', async ({page}) => {
+        await signUpFlow.InputEmailOnlyFlow('andhika.bagaskara3@gmail.com');
     });
 
     test('Input phone number with all fields filled with valid data', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-        const password = Generator.randomPasswordGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await expect(signUpPage.phoneNumberInput).toHaveValue(phoneNumber);
-        await signUpPage.inputPassword(password);
-        await signUpPage.inputConfirmPassword(password);
-        await signUpPage.clickSignUpButton();
-
-        await expect(page.getByRole('heading', { name: 'Registration Successful!' })).toBeVisible();
+        await signUpFlow.InputPhoneNumberFlow();
     });
 
     test('Input invalid phone number', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const password = Generator.randomPasswordGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await signUpPage.inputPhoneNumber('11223344556677889900');
-        await expect(signUpPage.phoneNumberInput).toHaveValue('11223344556677889900');
-        await signUpPage.inputPassword(password);
-        await signUpPage.inputConfirmPassword(password);
-
-        await expect(signUpPage.signUpButton).toBeDisabled();
-        expect(await signUpPage.hasErrorBorder('phoneNumber')).toBe(true);
+        await signUpFlow.InputInvalidPhoneNumberFlow('11223344556677889900');
     });
 
     test('Input valid phone number only', async ({page}) => {
-        await signUpPage.inputPhoneNumber('8123456789');
-
-        await expect(signUpPage.phoneNumberInput).toHaveValue('8123456789');
-        await expect(signUpPage.signUpButton).toBeDisabled();
+        await signUpFlow.InputPhoneNumberOnlyFlow('8123456789');
     });
 
     test('Input valid password', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword('Yoshiki29!');
-        await signUpPage.inputConfirmPassword('Yoshiki29!');
-        await expect(signUpPage.passwordInput).toHaveValue('Yoshiki29!');
-        await expect(signUpPage.confirmPasswordInput).toHaveValue('Yoshiki29!');
-        await signUpPage.clickSignUpButton();
-
-        await expect(page.getByRole('heading', { name: 'Registration Successful!' })).toBeVisible();
+        await signUpFlow.InputPasswordFlow('Yoshiki29!');
     });
 
     test('Input invalid password', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword('yoshiki, 12345678');
-        await signUpPage.inputConfirmPassword('yoshiki, 12345678');
-        await expect(signUpPage.passwordInput).toHaveValue('yoshiki, 12345678');
-        await expect(signUpPage.confirmPasswordInput).toHaveValue('yoshiki, 12345678');
-
-        await expect(signUpPage.signUpButton).toBeDisabled();
-        expect(await signUpPage.hasErrorBorder('password')).toBe(true);
+        await signUpFlow.InputInvalidPasswordFlow('yoshiki, 12345678');
     });
 
     test('Input valid password only', async ({page}) => {
@@ -169,37 +67,11 @@ test.describe('Sign up page', () => {
     });
 
     test('Input matching confirm password', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword('Yoshiki29!');
-        await signUpPage.inputConfirmPassword('Yoshiki29!');
-        await expect(signUpPage.passwordInput).toHaveValue('Yoshiki29!');
-        await expect(signUpPage.confirmPasswordInput).toHaveValue('Yoshiki29!');
-        await signUpPage.clickSignUpButton();
-
-        await expect(page.getByRole('heading', { name: 'Registration Successful!' })).toBeVisible();
+        await signUpFlow.InputMatchingConfirmPasswordFlow('Yoshiki29!');
     });
 
     test('Input not matching confirm password', async ({page}) => {
-        const name = Generator.randomNameGenerator();
-        const email = Generator.randomEmailGenerator();
-        const phoneNumber = Generator.randomPhoneNumberGenerator();
-
-        await signUpPage.inputName(name);
-        await signUpPage.inputEmail(email);
-        await signUpPage.inputPhoneNumber(phoneNumber);
-        await signUpPage.inputPassword('Yoshiki29!');
-        await signUpPage.inputConfirmPassword('Yoshiki29!1');
-        await expect(signUpPage.passwordInput).toHaveValue('Yoshiki29!');
-        await expect(signUpPage.confirmPasswordInput).toHaveValue('Yoshiki29!1');
-
-        await expect(signUpPage.signUpButton).toBeDisabled();
-        expect(await signUpPage.hasErrorBorder('confirmPassword')).toBe(true);
+        await signUpFlow.InputNotMatchingConfirmPasswordFlow('Yoshiki29!', 'Yoshiki29!1');
     });
 
     test('Click sign up button', async ({page}) => {
