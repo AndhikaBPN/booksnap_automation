@@ -22,10 +22,10 @@ export class HomePage {
         this.playButton = page.locator('button:has(img[src="/book/play.png"])');
         this.pauseButton = page.locator('button:has(img[src="/book/pause.png"])');
         this.container = page.locator('div.flex.items-center.justify-around').nth(0);
-        this.likeButton = this.container.locator('button').nth(0);
-        this.commentButton = this.container.locator('button').nth(1);
-        this.shareButton = this.container.locator('button').nth(2);
-        this.bookmarkButton = this.container.locator('button').nth(3);
+        this.likeButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(0);
+        this.commentButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(1);
+        this.shareButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(2);
+        this.bookmarkButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(3);
         this.src = page.locator('img[class="w-full h-full object-cover pointer-events-none select-none rounded-2xl"]');
     }
 
