@@ -1,4 +1,4 @@
-import { Page, Locator, expect, defineConfig } from '@playwright/test';
+import { Page, Locator} from '@playwright/test';
 
 export class ForgotPasswordPage {
     readonly page: Page;

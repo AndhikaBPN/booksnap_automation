@@ -1,4 +1,4 @@
-import { Page, Locator, expect, defineConfig } from '@playwright/test';
+import { Page, Locator, expect} from '@playwright/test';
 
 export class Navbar {
     readonly page: Page;
