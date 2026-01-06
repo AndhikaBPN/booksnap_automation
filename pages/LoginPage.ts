@@ -1,4 +1,4 @@
-import { Page, Locator, expect, defineConfig } from '@playwright/test';
+import { Page, Locator, expect} from '@playwright/test';
 
 export class LoginPage {
     readonly page: Page;
@@ -29,19 +29,6 @@ export class LoginPage {
     async skipIntro(): Promise<void> {
         await this.skipButton.click();
         console.log('Skip button clicked');
-    }
-
-    async login(email?: string, password?: string): Promise<void> {
-        const finalEmail = email || process.env.USER_EMAIL;
-        const finalPassword = password || process.env.USER_PASSWORD;
-        if (!finalEmail || !finalPassword) {
-            throw new Error('Email or password is not provided');
-        }
-
-        await this.emailInput.fill(finalEmail);
-        console.log('Email input filled with: ' + finalEmail);
-        await this.passwordInput.fill(finalPassword);
-        console.log('Password input filled with: ' + finalPassword);
     }
 
     async inputEmail(email: string): Promise<void> {
