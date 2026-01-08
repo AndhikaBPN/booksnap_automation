@@ -21,7 +21,27 @@ test.describe('Home Page', () => {
         await homePageFlow.playTheAudio();
     });
 
-    test.only('Pause the audio', async ({page}) => {
+    test('Pause the audio', async ({page}) => {
         await homePageFlow.pauseTheAudio();
+    });
+
+    test('Fast Forward 10 Seconds', async ({page}) => {
+        await homePageFlow.fastForward10Seconds();
+    });
+
+    test('Go back 10 seconds', async ({page}) => {
+        await homePageFlow.goBack10Seconds();
+    });
+
+    test('Click minimize/maximize', async ({page}) => {
+        await homePageFlow.clickMinimizeMaximize();
+    });
+
+    test('Click like/love button', async ({page}) => {
+        await homePageFlow.clickLikeLoveButton();
+    });
+
+    test('Click comment button', async ({page}) => {
+        await homePageFlow.clickCommentButton();
     });
 });
