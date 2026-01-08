@@ -7,6 +7,10 @@ export class HomePage {
     readonly playAudioButton: Locator;
     readonly playButton: Locator;
     readonly pauseButton: Locator;
+    readonly previousButton: Locator;
+    readonly maximizeButton: Locator;
+    readonly minimizeButton: Locator;
+    readonly nextButton: Locator;
     readonly likeButton: Locator;
     readonly commentButton: Locator;
     readonly shareButton: Locator;
@@ -21,6 +25,10 @@ export class HomePage {
         this.playAudioButton = page.getByRole('button', { name: 'Play Play Audio' });
         this.playButton = page.locator('button:has(img[src="/book/play.png"])');
         this.pauseButton = page.locator('button:has(img[src="/book/pause.png"])');
+        this.previousButton = page.locator('button:has(img[src="/book/back.png"])');
+        this.maximizeButton = page.locator('button:has(img[src="/book/maximize.png"])');
+        this.minimizeButton = page.locator('button:has(img[src="/book/minimize.png"])');
+        this.nextButton = page.locator('button:has(img[src="/book/next.png"])');
         this.container = page.locator('div.flex.items-center.justify-around').nth(0);
         this.likeButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(0);
         this.commentButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(1);
@@ -52,6 +60,16 @@ export class HomePage {
     async clickPauseButton(): Promise<void> {
         await this.pauseButton.click();
         console.log('Pause button clicked');
+    }
+
+    async clickPreviousButton(): Promise<void> {
+        await this.previousButton.click();
+        console.log('Previous button clicked');
+    }
+
+    async clickNextButton(): Promise<void> {
+        await this.nextButton.click();
+        console.log('Next button clicked');
     }
 
     async clickLikeButton(): Promise<void> {
@@ -108,6 +126,16 @@ export class HomePage {
         const srcValue = await this.src.nth(index).getAttribute('src');
         console.log(`Src attribute value at index ${index} retrieved: ` + srcValue);
         return srcValue || '';
+    }
+
+    async clickMinimizeButton(): Promise<void> {
+        await this.minimizeButton.click();
+        console.log('Minimize button clicked');
+    }
+
+    async clickMaximizeButton(): Promise<void> {
+        await this.maximizeButton.click();
+        console.log('Maximize button clicked');
     }
 
 }
