@@ -22,7 +22,6 @@ export class HomePageFlow {
         await this.page.waitForTimeout(2000); // Wait for 2 seconds to ensure the page is loaded
 
         const srcBefore = await this.homePage.getSrcValueByIndex(0);
-        console.log(`Source before scrolling: ${srcBefore}`);
 
         await this.container.evaluate((el) => {
             el.dispatchEvent(new WheelEvent('wheel', { 
@@ -36,7 +35,6 @@ export class HomePageFlow {
 
         await this.page.waitForTimeout(5000); // Wait for 2 seconds
         const srcAfter = await this.homePage.getSrcValueByIndex(1);
-        console.log(`Source after scrolling: ${srcAfter}`);
 
         expect(srcBefore).not.toEqual(srcAfter);
     }
@@ -69,17 +67,13 @@ export class HomePageFlow {
     // Play the audio
     async playTheAudio(): Promise<void> {
         await this.homePage.clickPlayAudioButton();
-        console.log('Play audio button clicked in Home Page Flow');
 
         const timeBefore = await this.audio.getCurrTimeBefore();
-        console.log(`Current time before waiting: ${timeBefore}`);
 
         await this.homePage.clickPlayButton();
-        console.log('Play button clicked in Home Page Flow');
         await this.page.waitForTimeout(5000); // Wait for 5 seconds
 
         const timeAfter = await this.audio.getCurrTimeAfter();
-        console.log(`Current time after waiting: ${timeAfter}`);
 
         expect(timeAfter).toBeGreaterThan(timeBefore);
     }
@@ -87,28 +81,88 @@ export class HomePageFlow {
     // Pause the audio
     async pauseTheAudio(): Promise<void> {
         await this.homePage.clickPlayAudioButton();
-        console.log('Play audio button clicked in Home Page Flow');
 
         await this.homePage.clickPlayButton();
-        console.log('Play button clicked in Home Page Flow');
         await this.page.waitForTimeout(5000); // Wait for 5 seconds
 
         await this.homePage.clickPauseButton();
-        console.log('Pause button clicked in Home Page Flow');
 
         const timeBefore = await this.audio.getCurrTimeBefore();
-        console.log(`Current time before waiting: ${timeBefore}`);
         await this.page.waitForTimeout(5000); // Wait for 5 seconds
 
         const timeAfter = await this.audio.getCurrTimeAfter();
-        console.log(`Current time after waiting: ${timeAfter}`);
 
         expect(timeAfter).toBe(timeBefore);
     }
 
     // Fast forward 10 seconds
     async fastForward10Seconds(): Promise<void> {
-        const timeBefore = await this.audio.getCurrTimeBefore();
-        console.log(`Current time before fast forward: ${timeBefore}`);
+        await this.homePage.clickPlayAudioButton();
+
+        await this.homePage.clickPlayButton();
+        await this.page.waitForTimeout(5000); // Wait for 5 seconds
+
+        await this.homePage.clickPauseButton();
+        await expect(this.audio.isPaused()).toBeTruthy();
+
+        const timeBefore = Number(await this.audio.getCurrTimeBefore());
+
+        await this.homePage.clickNextButton();
+
+        const timeAfter = Number(await this.audio.getCurrTimeAfter());
+        const timeDifference = timeAfter - timeBefore;
+
+        expect(timeDifference).toBeGreaterThanOrEqual(9.5);
+    }
+
+    // Go back 10 seconds
+    async goBack10Seconds(): Promise<void> {
+        await this.homePage.clickPlayAudioButton();
+
+        await this.homePage.clickPlayButton();
+        await this.page.waitForTimeout(5000); // Wait for 5 seconds
+
+        await this.homePage.clickPauseButton();
+        await expect(this.audio.isPaused()).toBeTruthy();
+
+        const timeBefore = Number(await this.audio.getCurrTimeBefore());
+
+        await this.homePage.clickPreviousButton();
+
+        const timeAfter = Number(await this.audio.getCurrTimeAfter());
+        const timeDifference = timeBefore - timeAfter;
+
+        expect(timeDifference).toBeGreaterThanOrEqual(9.5);
+    }
+
+    // Click minimize/maximize
+    async clickMinimizeMaximize(): Promise<void> {
+        await this.homePage.clickPlayAudioButton();
+        expect(this.homePage.maximizeButton).toBeVisible();
+        await this.homePage.clickMinimizeButton();
+        expect(this.homePage.minimizeButton).toBeVisible();
+    }
+
+    // Click like/love button
+    async clickLikeLoveButton(): Promise<void> {
+        expect(this.homePage.likeButton).toBeVisible();
+
+        for(let i = 0; i < 2; i++) {
+            if(await this.page.locator('button:has(img[src="/book/like.png"])').isVisible()){
+                await this.homePage.clickLikeButton();
+                expect(this.page.getByRole('heading', {name: 'Book liked!'})).toBeVisible();
+            } else if(await this.page.locator('button:has(img[src="/book/love-active.png"])').isVisible()){
+                await this.homePage.clickLikeButton();
+                expect(this.page.getByRole('heading', {name: 'Book unliked'})).toBeVisible();
+            }
+        }
+    }
+
+    // Click comment button
+    async clickCommentButton(): Promise<void> {
+        expect(this.homePage.commentButton).toBeVisible();
+        await this.homePage.clickCommentButton();
+
+        expect(this.page.getByRole('heading', {name: 'Comments'})).toBeVisible();
     }
 }
