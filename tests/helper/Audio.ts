@@ -7,6 +7,26 @@ export class Audio {
         this.page = page;
     }
 
+    async isPlaying(): Promise<boolean> {
+        const playing = await this.page.evaluate(() => {
+            // @ts-ignore
+            const audio = document.querySelector('audio') as HTMLAudioElement;
+            return !audio.paused;
+        });
+        console.log(`Audio playing state: ${playing}`);
+        return playing;
+    }
+
+    async isPaused(): Promise<boolean> {
+        const paused = await this.page.evaluate(() => {
+            // @ts-ignore
+            const audio = document.querySelector('audio') as HTMLAudioElement;
+            return audio.paused;
+        });
+        console.log(`Audio paused state: ${paused}`);
+        return paused;
+    }
+
     async getCurrTimeBefore(): Promise<number | bigint> {
         const currTimeBefore = await this.page.evaluate(() => {
             // @ts-ignore
