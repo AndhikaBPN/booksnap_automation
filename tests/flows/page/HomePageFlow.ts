@@ -123,7 +123,7 @@ export class HomePageFlow {
         await this.page.waitForTimeout(5000); // Wait for 5 seconds
 
         await this.homePage.clickPauseButton();
-        await expect(this.audio.isPaused()).toBeTruthy();
+        expect(this.audio.isPaused()).toBeTruthy();
 
         const timeBefore = Number(await this.audio.getCurrTimeBefore());
 
