@@ -120,6 +120,12 @@ npx allure generate ./allure-results --clean
 npx allure open
 ```
 
+Generate Allure Report HTML File:
+
+```bash
+allure generate allure-results --clean --single-file
+```
+
 ---
 
 ## 🚫 Out of Scope
