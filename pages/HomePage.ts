@@ -13,10 +13,16 @@ export class HomePage {
     readonly nextButton: Locator;
     readonly likeButton: Locator;
     readonly commentButton: Locator;
+    readonly commentInput: Locator;
     readonly shareButton: Locator;
     readonly bookmarkButton: Locator;
     readonly container: Locator;
+    readonly commentContainer: Locator;
     readonly src: Locator;
+    readonly searchInput: Locator;
+    readonly searchButton: Locator;
+    readonly filterButton: Locator;
+    readonly recentlyAddedFilter: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -35,6 +41,12 @@ export class HomePage {
         this.shareButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(2);
         this.bookmarkButton = this.container.locator('button[class="flex flex-col items-center gap-1"]').nth(3);
         this.src = page.locator('img[class="w-full h-full object-cover pointer-events-none select-none rounded-2xl"]');
+        this.commentInput = page.locator('input[placeholder="Add a comment..."]');
+        this.commentContainer = page.locator('div[class="flex-1 overflow-y-auto px-4 py-3"]');
+        this.searchInput = page.locator('input[placeholder="Find your favorite book..."]');
+        this.filterButton = page.locator('button:has(img[src="/filter.png"])');
+        this.recentlyAddedFilter = page.getByRole('button', { name: 'Recently Added' });
+        this.searchButton = page.locator('button:has(img[src="/search.png"])');
     }
 
     async clickForYouButton(): Promise<void> {
@@ -48,6 +60,7 @@ export class HomePage {
     }
 
     async clickPlayAudioButton(): Promise<void> {
+        await this.page.waitForSelector('p:has-text("Loading book...")', { state: 'detached' });
         await this.playAudioButton.click();
         console.log('Play Audio button clicked');
     }
@@ -138,4 +151,28 @@ export class HomePage {
         console.log('Maximize button clicked');
     }
 
+    async inputComment(comment: string): Promise<void> {
+        await this.commentInput.fill(comment);
+        console.log('Comment input filled with: ' + comment);
+    }
+
+    async inputSearch(search: string): Promise<void> {
+        await this.searchInput.fill(search);
+        console.log('Search input filled with: ' + search);
+    }
+
+    async clickFilterButton(): Promise<void> {
+        await this.filterButton.click();
+        console.log('Filter button clicked');
+    }
+
+    async clickRecentlyAddedFilter(): Promise<void> {
+        await this.recentlyAddedFilter.click();
+        console.log('Recently Added filter clicked');
+    }
+
+    async clickSearchButton(): Promise<void> {
+        await this.searchButton.click();
+        console.log('Search button clicked');
+    }
 }
