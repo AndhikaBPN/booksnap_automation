@@ -1,8 +1,10 @@
 import {expect, Locator, Page} from '@playwright/test';
 import {HomePage, Navbar} from '../../../pages';
 import { Audio } from '../../../tests/helper/Audio';
+import { Generator } from '../../../tests/helper/Generator';
 
 export class HomePageFlow {
+
     readonly page: Page;
     readonly homePage: HomePage;
     readonly navbar: Navbar;
@@ -130,17 +132,22 @@ export class HomePageFlow {
         await this.homePage.clickPreviousButton();
 
         const timeAfter = Number(await this.audio.getCurrTimeAfter());
-        const timeDifference = timeBefore - timeAfter;
 
+        if (timeBefore < 10) {
+            expect(timeAfter).toBe(0);
+            return;
+        }
+
+        const timeDifference = timeBefore - timeAfter;
         expect(timeDifference).toBeGreaterThanOrEqual(9.5);
     }
 
     // Click minimize/maximize
     async clickMinimizeMaximize(): Promise<void> {
         await this.homePage.clickPlayAudioButton();
-        expect(this.homePage.maximizeButton).toBeVisible();
-        await this.homePage.clickMinimizeButton();
         expect(this.homePage.minimizeButton).toBeVisible();
+        await this.homePage.clickMinimizeButton();
+        expect(this.homePage.maximizeButton).toBeVisible();
     }
 
     // Click like/love button
@@ -155,6 +162,7 @@ export class HomePageFlow {
                 await this.homePage.clickLikeButton();
                 expect(this.page.getByRole('heading', {name: 'Book unliked'})).toBeVisible();
             }
+            await this.page.waitForTimeout(2000); // Wait for 2 seconds
         }
     }
 
@@ -165,4 +173,74 @@ export class HomePageFlow {
 
         expect(this.page.getByRole('heading', {name: 'Comments'})).toBeVisible();
     }
+
+    // Enter the comment
+    async enterComment(comment: string): Promise<void> {
+        await this.clickCommentButton();
+        await this.homePage.inputComment(comment);
+        await this.page.keyboard.press('Enter');
+
+        expect(this.page.getByText(comment)).toBeVisible();
+    }
+
+    // Like the comment
+    async likeTheComment(): Promise<void> {
+        await this.clickCommentButton();
+        await this.enterComment(Generator.randomStringGenerator());
+
+    }
+
+    // Share the book
+    async shareTheBook(): Promise<void> {
+        const shareBefore = await this.homePage.getShareCount();
+        await this.homePage.clickShareButton();
+        await this.page.waitForTimeout(2000);
+        const shareAfter = await this.homePage.getShareCount();
+
+        expect(Number(shareAfter)).toBeGreaterThan(Number(shareBefore));
+    }
+
+    // Click save the book
+    async clickSaveTheBook(): Promise<void> {
+        let styleValue = await this.page.locator('button:has(img[src="/book/bookmark.png"])').getAttribute('style');
+
+        for(let i = 0; i < 2; i++) {
+            if(styleValue === '' || styleValue === null){
+                await this.homePage.clickBookmarkButton();
+                expect(this.page.getByRole('heading', {name: 'Book bookmarked!'})).toBeVisible();
+            } else if (styleValue !== '') {
+                await this.homePage.clickBookmarkButton();
+                expect(this.page.getByRole('heading', {name: 'Bookmark removed'})).toBeVisible();
+            }
+            await this.page.waitForTimeout(2000); // Wait for 2 seconds
+        }
+    }
+
+    // Click my library page
+    async clickMyLibraryPage(): Promise<void> {
+        await this.homePage.clickMyLibraryButton();
+        const buttonClass = await this.homePage.myLibraryButton.getAttribute('class');
+        expect(buttonClass).toContain('bg-[#379777]');
+    }
+
+    // Search for saved books
+    async searchForSavedBooks(value: string): Promise<void> {
+        await this.homePage.clickMyLibraryButton();
+        await this.homePage.inputSearch(value);
+        expect(this.page.getByRole('heading', {name: value})).toBeVisible();
+    }
+
+    // Filter by recently added
+    async filterByRecentlyAdded(): Promise<void> {
+        await this.homePage.clickMyLibraryButton();
+        await this.homePage.clickFilterButton();
+        await this.homePage.clickRecentlyAddedFilter();
+    }
+
+    // Click search button
+    async clickSearchButton(): Promise<void> {
+        await this.homePage.clickSearchButton();
+        expect(this.page.locator('button:has(img[src="/menu/explore-active.png"])')).toBeVisible();
+    }
+
 }
