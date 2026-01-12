@@ -34,7 +34,6 @@ test.describe('Sign In', () => {
     });
 
     test('Show or hide password', async ({page}) => {
-        const loginPage = new LoginPage(page);
         const loginFlow = new LoginFlow(page);
 
         await loginFlow.ShowOrHidePassword('fildzaharistaaa@gmail.com', 'Yoshiki29!');
