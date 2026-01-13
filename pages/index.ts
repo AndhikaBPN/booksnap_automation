@@ -3,4 +3,5 @@ export { ForgotPasswordPage } from './ForgotPasswordPage';
 export { SignUpPage } from './SignUpPage';
 export { OnboardingPage } from './OnboardingPage';
 export { HomePage } from './HomePage';
+export { ExplorePage } from './ExplorePage';
 export { Navbar } from './Navbar';
