@@ -145,9 +145,9 @@ export class HomePageFlow {
     // Click minimize/maximize
     async clickMinimizeMaximize(): Promise<void> {
         await this.homePage.clickPlayAudioButton();
-        expect(this.homePage.minimizeButton).toBeVisible();
+        await expect(this.homePage.minimizeButton).toBeVisible();
         await this.homePage.clickMinimizeButton();
-        expect(this.homePage.maximizeButton).toBeVisible();
+        await expect(this.homePage.maximizeButton).toBeVisible();
     }
 
     // Click like/love button
@@ -157,10 +157,10 @@ export class HomePageFlow {
         for(let i = 0; i < 2; i++) {
             if(await this.page.locator('button:has(img[src="/book/like.png"])').isVisible()){
                 await this.homePage.clickLikeButton();
-                expect(this.page.getByRole('heading', {name: 'Book liked!'})).toBeVisible();
+                await expect(this.page.getByRole('heading', {name: 'Book liked!'})).toBeVisible();
             } else if(await this.page.locator('button:has(img[src="/book/love-active.png"])').isVisible()){
                 await this.homePage.clickLikeButton();
-                expect(this.page.getByRole('heading', {name: 'Book unliked'})).toBeVisible();
+                await expect(this.page.getByRole('heading', {name: 'Book unliked'})).toBeVisible();
             }
             await this.page.waitForTimeout(2000); // Wait for 2 seconds
         }
@@ -168,10 +168,10 @@ export class HomePageFlow {
 
     // Click comment button
     async clickCommentButton(): Promise<void> {
-        expect(this.homePage.commentButton).toBeVisible();
+        await expect(this.homePage.commentButton).toBeVisible();
         await this.homePage.clickCommentButton();
 
-        expect(this.page.getByRole('heading', {name: 'Comments'})).toBeVisible();
+        await expect(this.page.getByRole('heading', {name: 'Comments'})).toBeVisible();
     }
 
     // Enter the comment
@@ -180,7 +180,7 @@ export class HomePageFlow {
         await this.homePage.inputComment(comment);
         await this.page.keyboard.press('Enter');
 
-        expect(this.page.getByText(comment)).toBeVisible();
+        await expect(this.page.getByText(comment)).toBeVisible();
     }
 
     // Like the comment
@@ -207,10 +207,10 @@ export class HomePageFlow {
         for(let i = 0; i < 2; i++) {
             if(styleValue === '' || styleValue === null){
                 await this.homePage.clickBookmarkButton();
-                expect(this.page.getByRole('heading', {name: 'Book bookmarked!'})).toBeVisible();
+                await expect(this.page.getByRole('heading', {name: 'Book bookmarked!'})).toBeVisible();
             } else if (styleValue !== '') {
                 await this.homePage.clickBookmarkButton();
-                expect(this.page.getByRole('heading', {name: 'Bookmark removed'})).toBeVisible();
+                await expect(this.page.getByRole('heading', {name: 'Bookmark removed'})).toBeVisible();
             }
             await this.page.waitForTimeout(2000); // Wait for 2 seconds
         }
@@ -227,7 +227,7 @@ export class HomePageFlow {
     async searchForSavedBooks(value: string): Promise<void> {
         await this.homePage.clickMyLibraryButton();
         await this.homePage.inputSearch(value);
-        expect(this.page.getByRole('heading', {name: value})).toBeVisible();
+        await expect(this.page.getByRole('heading', {name: value})).toBeVisible();
     }
 
     // Filter by recently added
@@ -240,7 +240,7 @@ export class HomePageFlow {
     // Click search button
     async clickSearchButton(): Promise<void> {
         await this.homePage.clickSearchButton();
-        expect(this.page.locator('button:has(img[src="/menu/explore-active.png"])')).toBeVisible();
+        await expect(this.page.locator('button:has(img[src="/menu/explore-active.png"])')).toBeVisible();
     }
 
 }
