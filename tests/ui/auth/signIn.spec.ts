@@ -125,4 +125,20 @@ test.describe.skip('Forgot Password', () => {
 
         await expect(page.getByRole('heading', {name: 'OTP Resent'})).toBeVisible();
     })
+
+    test('Click "Continue" after setting new password', async ({page}) => {
+        const loginPage = new LoginPage(page);
+        const forgotPasswordPage = new ForgotPasswordPage(page);
+
+        await loginPage.goto();
+        await loginPage.skipIntro();
+        await loginPage.clickForgotPassword();
+        await page.waitForSelector('input[id=email]', {timeout: 5000, state: 'visible'})
+        await forgotPasswordPage.inputEmail('putrisyiffa01@gmail.com');
+        await forgotPasswordPage.clickSendButton();
+        await forgotPasswordPage.inputOTP('123456');
+        await forgotPasswordPage.clickContinueButton();
+
+        await expect(loginPage.ForYouButton).toBeVisible();
+    })
 });

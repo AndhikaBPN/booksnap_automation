@@ -51,6 +51,42 @@ test.describe('Home Page', () => {
         await homePageFlow.enterComment(comment);
     });
 
+    test('Like the comment', async ({page}) => {
+        await homePageFlow.likeTheComment();
+    });
+
+    test('Dislike the comment', async ({page}) => {
+        await homePageFlow.dislikeTheComment();
+    });
+
+    test.skip('Report the comment', async ({page}) => {
+        // await homePageFlow.reportTheComment();
+    });
+
+    test.skip('Reply the comment', async ({page}) => {
+        // await homePageFlow.replyTheComment();
+    });
+
+    test.skip('Like the reply comment', async ({page}) => {
+        // await homePageFlow.likeTheReplyComment();
+    });
+
+    test.skip('Dislike the reply comment', async ({page}) => {
+        // await homePageFlow.dislikeTheReplyComment();
+    });
+
+    test.skip('Report the reply comment', async ({page}) => {
+        // await homePageFlow.reportTheReplyComment();
+    });
+
+    test.skip('Delete our own comment', async ({page}) => {
+        // await homePageFlow.deleteOurOwnComment();
+    });
+
+    test.skip('Delete another user\'s comment', async ({page}) => {
+        // await homePageFlow.deleteAnotherUserComment();
+    })
+
     test('Share the book', async ({page}) => {
         await homePageFlow.shareTheBook();
     });

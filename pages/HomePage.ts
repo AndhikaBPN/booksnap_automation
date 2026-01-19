@@ -49,6 +49,16 @@ export class HomePage {
         this.searchButton = page.locator('button:has(img[src="/search.png"])');
     }
 
+    getLikedCommentButton(commentText: string): Locator {
+        const likeCommentButton = this.page.locator(`div.flex-1.min-w0:has(p:text(/${commentText}/i)) button[title="Like"]`); 
+        return likeCommentButton; 
+    }
+
+    getDislikedCommentButton(commentText: string): Locator {
+        const dislikeCommentButton = this.page.locator(`div.flex-1.min-w0:has(p:text(/${commentText}/i)) button[title="Dislike"]`); 
+        return dislikeCommentButton;
+    }
+
     async clickForYouButton(): Promise<void> {
         await this.forYouButton.click();
         console.log('For You button clicked');
@@ -174,5 +184,15 @@ export class HomePage {
     async clickSearchButton(): Promise<void> {
         await this.searchButton.click();
         console.log('Search button clicked');
+    }
+
+    async clickLikeCommentButton(value: string): Promise<void> {
+        this.getLikedCommentButton(value).click();
+        console.log('Like Comment button clicked');
+    }
+
+    async clickDislikeCommentButton(value: string): Promise<void> {
+        this.getDislikedCommentButton(value).click();
+        console.log('Dislike Comment button clicked');
     }
 }

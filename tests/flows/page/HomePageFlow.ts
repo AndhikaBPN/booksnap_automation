@@ -152,7 +152,7 @@ export class HomePageFlow {
 
     // Click like/love button
     async clickLikeLoveButton(): Promise<void> {
-        expect(this.homePage.likeButton).toBeVisible();
+        await expect(this.homePage.likeButton).toBeVisible();
 
         for(let i = 0; i < 2; i++) {
             if(await this.page.locator('button:has(img[src="/book/like.png"])').isVisible()){
@@ -186,8 +186,31 @@ export class HomePageFlow {
     // Like the comment
     async likeTheComment(): Promise<void> {
         await this.clickCommentButton();
-        await this.enterComment(Generator.randomStringGenerator());
 
+        const comment = Generator.randomStringGenerator();
+        await this.enterComment(comment);
+
+        await this.homePage.clickLikeCommentButton(comment);
+        await expect(this.page.getByRole('heading', {name: 'Comment liked!'})).toBeVisible();
+
+        const styleValue = await this.homePage.getLikedCommentButton(comment).locator('img').getAttribute('class');
+
+        expect(styleValue).toContain('opacity-100');
+    }
+
+    // Dislike the comment
+    async dislikeTheComment(): Promise<void> {
+        await this.clickCommentButton();
+
+        const comment = Generator.randomStringGenerator();
+        await this.enterComment(comment);
+
+        await this.homePage.clickLikeCommentButton(comment);
+        await expect(this.page.getByRole('heading', {name: 'Comment liked!'})).toBeVisible();
+
+        const styleValue = await this.homePage.getLikedCommentButton(comment).locator('img').getAttribute('class');
+
+        expect(styleValue).toContain('opacity-100');
     }
 
     // Share the book
