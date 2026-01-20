@@ -17,9 +17,18 @@ async function globalTeardown() {
     }
 
     const projectName = process.env.PROJECT_NAME || 'PROJECT';
-    const timestamp = new Date()
-        .toISOString()
-        .replace(/[:.]/g, '-');
+    const formatter = new Intl.DateTimeFormat('sv-SE', {
+        timeZone: 'Asia/Jakarta',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    })
+    const timestamp = formatter.format(new Date())
+        .replace(' ', 'T')
+        .replace(/:/g, '-');
 
         
     const reportDir = `allure-report-${projectName}-${timestamp}`;
@@ -30,7 +39,7 @@ async function globalTeardown() {
     // Generate report
     try{
         execSync(
-            `allure generate allure-results --clean -o ${reportDir}`,
+            `npx allure generate allure-results --clean -o ${reportDir}`,
             { stdio: 'inherit' }
         );
     } catch (error) {
@@ -40,14 +49,12 @@ async function globalTeardown() {
 
     // Zip report
     console.log('Zipping Allure report...');
-    execSync(`zip -r ${zipFile} ${reportDir}`, {
-        stdio: 'inherit',
-    });
-
-    // Auto open report (LOCAL ONLY)
-    if (process.env.AUTO_OPEN_REPORT === 'true' && !process.env.CI) {
-        console.log('Opening Allure report locally...');
-        execSync(`allure open ${reportDir}`, { stdio: 'inherit' });
+    try {
+        execSync(`zip -r ${zipFile} ${reportDir}`, {
+            stdio: 'inherit',
+        });
+    } catch (error) {
+        console.error('Failed to zip Allure report:', error);
     }
 
     console.log('Allure results cleaned up.');

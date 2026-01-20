@@ -21,6 +21,7 @@ export default defineConfig({
     retries: process.env.CI ? 2 : 0,
     reporter: useAllure ? [['allure-playwright']] : [['html', {open: 'never'}]],
     testMatch: runTest ? [`**/${runTest}.spec.ts`] : [`**/*.spec.ts`],
+    globalSetup: './global-setup',
     globalTeardown: './global-teardown',
     use: {
         screenshot: 'only-on-failure',
