@@ -1,6 +1,6 @@
 import {test, expect} from '@playwright/test';
 import {LoginPage, SignUpPage, ForgotPasswordPage} from '../../../pages';
-import {SignUpFlow} from '../../flows/auth/SignUpFlow';
+import {SignUpFlow} from '../../../flows/auth/SignUpFlow';
 import {Generator} from '../../../utils/helper/Generator';
 
 test.describe('Sign up page', () => {

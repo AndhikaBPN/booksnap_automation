@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
 import { Navbar } from "../../../pages";
-import { ProfilePageFlow } from "../../flows/page/ProfilePageFlow";
-import { LoginFlow } from "../../flows/auth/LoginFlow";
+import { ProfilePageFlow } from "../../../flows/page/ProfilePageFlow";
+import { LoginFlow } from "../../../flows/auth/LoginFlow";
 import path from "path";
 
 test.describe("Profile Page", () => {

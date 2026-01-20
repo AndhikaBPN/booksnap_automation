@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import { ExplorePageFlow } from "../../flows/page/ExplorePageFlow";
-import { LoginFlow } from "../../flows/auth/LoginFlow";
+import { ExplorePageFlow } from "../../../flows/page/ExplorePageFlow";
+import { LoginFlow } from "../../../flows/auth/LoginFlow";
 
 test.describe("Explore Page", () => {
     let explorePageFlow: ExplorePageFlow;
