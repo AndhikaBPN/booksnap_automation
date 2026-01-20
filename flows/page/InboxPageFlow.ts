@@ -1,5 +1,5 @@
 import {expect, Page} from '@playwright/test';
-import {InboxPage, Navbar} from '../../../pages';
+import {InboxPage, Navbar} from '../../pages';
 
 export class InboxPageFlow {
     readonly page: Page;

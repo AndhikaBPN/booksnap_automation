@@ -1,6 +1,6 @@
 import {expect, Page} from '@playwright/test';
-import {LoginPage, SignUpPage, ForgotPasswordPage} from '../../../pages';
-import {Generator} from '../../../utils/helper/Generator';
+import {LoginPage, SignUpPage, ForgotPasswordPage} from '../../pages';
+import {Generator} from '../../utils/helper/Generator';
 
 export class SignUpFlow {
     readonly loginPage: LoginPage;

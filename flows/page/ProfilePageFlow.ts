@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import { ProfilePage, Navbar } from "../../../pages";
+import { ProfilePage, Navbar } from "../../pages";
 
 export class ProfilePageFlow {
 

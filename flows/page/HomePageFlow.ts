@@ -1,7 +1,7 @@
 import {expect, Locator, Page} from '@playwright/test';
-import {HomePage, Navbar} from '../../../pages';
-import { Audio } from '../../../utils/helper/Audio';
-import { Generator } from '../../../utils/helper/Generator';
+import {HomePage, Navbar} from '../../pages';
+import { Audio } from '../../utils/helper/Audio';
+import { Generator } from '../../utils/helper/Generator';
 
 export class HomePageFlow {
 

@@ -1,5 +1,5 @@
 import {expect, Page} from '@playwright/test';
-import {LoginPage, OnboardingPage} from '../../../pages';
+import {LoginPage, OnboardingPage} from '../../pages';
 
 export class OnboardingFlow {
     readonly page: Page;
