@@ -1,7 +1,7 @@
 import {test} from '@playwright/test';
 import { HomePageFlow } from '../../flows/page/HomePageFlow';
 import { LoginFlow } from '../../flows/auth/LoginFlow';
-import { Generator } from '../../helper/Generator';
+import { Generator } from '../../../utils/helper/Generator';
 
 test.describe('Home Page', () => {
     let homePageFlow: HomePageFlow;
