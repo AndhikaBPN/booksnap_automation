@@ -46,6 +46,7 @@ USER_PASSWORD=Password123
 USE_ALLURE=false
 CI=false
 RUN_TEST=file_name
+AUTO_OPEN_REPORT=false
 ```
 
 ---
@@ -112,6 +113,23 @@ npx playwright show-report
 ```
 
 Allure (optional):
+
+Install Allure:
+
+MacOS
+```bash
+brew install allure
+```
+
+Windows
+```bash
+npm install -g allure-commandline --save-dev
+```
+
+Verify Allure:
+```bash
+allure --version
+```
 
 ```bash
 USE_ALLURE=true 

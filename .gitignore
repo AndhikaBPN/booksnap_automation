@@ -23,6 +23,8 @@ blob-report/
 .trace/
 allure-results/
 allure-report/
+allure-report-*/
+*.zip
 
 # ===============================
 # Auth / Session Files
